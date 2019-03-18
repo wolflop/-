@@ -71,8 +71,7 @@ class Baike:
         with open(file_path, "w", encoding='utf-8') as f:
             for i in range(len(b)):
                 f.write(b[i])
-        # print(b)
-        # des = bsbj.head.contents[3].split('\n')
+        return self.content
 
    def insert_db(self, ):
         db = pymysql.connect("localhost", "root", "111111", "search_for")
