@@ -74,20 +74,14 @@ class Baike:
         # print(b)
         # des = bsbj.head.contents[3].split('\n')
 
-        # p = re.findall('<div class="para" label-module="para">(.*?)</div>', p, re.S)
-        # p = re.findall('[\u4e00-\u9fa5]+', p, re.S)
-        # for i in range(len(p)):
-        #     p1 = re.findall('[\u4e00-\u9fa5]+', p[i], re.S)
-        # for  child in bsobj.head.descendants:
-        #     print(type(child{0}))
-        # path1 = r"C:\Users\liupi\project"
-        # path = "{}.txt".format(self.search_for)
-        # file_path = os.path.join(path1, path)
-        # with open(file_path, "w", encoding='utf-8')     as f:
-        #     for i in range(len(p)):
-        #         f.write(p[i])
-            # print(p1[0])
-    # def hebing(self, str):
+   def insert_db(self, ):
+        db = pymysql.connect("localhost", "root", "111111", "search_for")
+        cursor = db.cursor()
+        sql = """INSERT INTO search_for (search_for, content) VALUES ('%s', '%s')""" % (self.search_for, self.find_str())
+        # 执行sql语句
+        cursor.execute(sql)
+        # 提交到数据库执行
+        db.commit()    
 
 
 
@@ -95,3 +89,4 @@ if __name__ == '__main__':
     tieba_spider = Baike("lol")
     tieba_spider.run()
     tieba_spider.find_str()
+    tieba_spider.insert_db()
