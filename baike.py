@@ -63,14 +63,13 @@ class Baike:
         # print(self.url_temp)
         p = self.parse_url(self.url_temp)
         bsobj = BeautifulSoup(p, 'html.parser')
-        # a = bsobj.head.find_all("meta")[3]
-        b = re.findall('[\u4e00-\u9fa5]+', str(bsobj.head.find_all("meta")[3]))
+        a = bsobj.head.find_all("meta")[3]
+        self.content = a.get("content")
         path1 = r"C:\Users\liupi\project"
         path = "{}.txt".format(self.search_for)
         file_path = os.path.join(path1, path)
         with open(file_path, "w", encoding='utf-8') as f:
-            for i in range(len(b)):
-                f.write(b[i])
+                f.write(self.content)
         return self.content
 
    def insert_db(self, ):
