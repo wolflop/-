@@ -85,7 +85,8 @@ class Baike:
 
 
 if __name__ == '__main__':
-    tieba_spider = Baike("lol")
+    a = input("please input your search:")
+    tieba_spider = Baike(a)
     tieba_spider.run()
     tieba_spider.find_str()
     tieba_spider.insert_db()
