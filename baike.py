@@ -53,7 +53,7 @@ class Baike:
         path1 = r"C:\Users\liupi\project"
         path = "{}.html".format(self.search_for)
         file_path = os.path.join(path1, path)
-        with open(file_path, "w", encoding='utf-8') as f:        #搜索页面.html
+        with open(file_path, "w", encoding='utf-8') as f:        #打开文件，并写入相关内容
             f.write(html_str)
     def run(self):  # 实现主逻辑
         html_str = self.parse_url(self.url_temp)
@@ -72,9 +72,10 @@ class Baike:
                 f.write(self.content)
         return self.content
 
-   def insert_db(self, ):
-        db = pymysql.connect("localhost", "root", "111111", "search_for")
-        cursor = db.cursor()
+   def insert_db(self):
+        db = pymysql.connect("localhost", "root", "111111", "search_for") #连接数据库，本地、用户名、密码、database名称
+        cursor = db.cursor() 
+        #sql的语句
         sql = """INSERT INTO search_for (search_for, content) VALUES ('%s', '%s')""" % (self.search_for, self.find_str())
         # 执行sql语句
         cursor.execute(sql)
