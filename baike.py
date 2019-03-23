@@ -59,19 +59,37 @@ class Baike:
         html_str = self.parse_url(self.url_temp)
         # print(self.url_temp)
         self.save_html(html_str)   # 保存
+#     def find_str(self):
+#         # print(self.url_temp)
+#         p = self.parse_url(self.url_temp)
+#         bsobj = BeautifulSoup(p, 'html.parser')
+#         a = bsobj.head.find_all("meta")[3]
+#         self.content = a.get("content")
+#         path1 = r"C:\Users\liupi\project"
+#         path = "{}.txt".format(self.search_for)
+#         file_path = os.path.join(path1, path)
+#         with open(file_path, "w", encoding='utf-8') as f:
+#                 f.write(self.content)
+#         return self.content
     def find_str(self):
         # print(self.url_temp)
         p = self.parse_url(self.url_temp)
         bsobj = BeautifulSoup(p, 'html.parser')
-        a = bsobj.head.find_all("meta")[3]
-        self.content = a.get("content")
+        # a = bsobj.head.find_all("meta")[3]
+        namelist = bsobj.find_all({"h1", "div", "h2", "li", "h3"}, {"class":["para", "text", "title-text"]})
+        # self.content = a.get("content")
+        # for name in namelist:
+        #     print('\n'.join(name.get_text().split()) + '\n')
         path1 = r"C:\Users\liupi\project"
         path = "{}.txt".format(self.search_for)
         file_path = os.path.join(path1, path)
+        a = []
         with open(file_path, "w", encoding='utf-8') as f:
-                f.write(self.content)
-        return self.content
-
+            for name in namelist:
+                f.write('\n'.join(name.get_text().split()) + '\n')
+                a.append('\n'.join(name.get_text().split()) + '\n')
+        self.content = ''.join(a)
+        return self.content 
    def insert_db(self):
         db = pymysql.connect("localhost", "root", "111111", "search_for") #连接数据库，本地、用户名、密码、database名称
         cursor = db.cursor() 
@@ -81,7 +99,15 @@ class Baike:
         cursor.execute(sql)
         # 提交到数据库执行
         db.commit()    
-
+   def select_db(self):
+        db = pymysql.connect("localhost", "root", "111111", "search_for")
+        cursor = db.cursor()
+        sql = """select search_for from search_for"""
+        cursor.execute(sql)
+        self.result = cursor.fetchone()
+        return self.result
+        db.commit()
+        db.close()
 
 
 if __name__ == '__main__':
@@ -89,4 +115,7 @@ if __name__ == '__main__':
     tieba_spider = Baike(a)
     tieba_spider.run()
     tieba_spider.find_str()
-    tieba_spider.insert_db()
+    if a in tieba_spider.select_db():
+        print("There have the selected")
+    else:
+        tieba_spider.insert_db()
