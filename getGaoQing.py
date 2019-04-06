@@ -19,18 +19,23 @@ def parse_url():
     bsobj = BeautifulSoup(p, 'html.parser')
     #抓取页面的电影的名字和连接
     namelist = bsobj.find_all("div", {"class": "article"})
-    # print(type(namelist))
-    #获取当前页面的电影名字
+    #抓取页面包含电海报连接
+    posterlist = bsobj.find_all("div", {"class":"thumbnail"})
+
     getFilmName = []
-    for filmname in namelist:
-        getFilmName.append(filmname.get_text().split()[1])
-    #获取当前页面电影的连接
+   
     getFilmLink = []
-    for filmlink in namelist:
-        # if 'href' in filmlink.findall("a"):
-        print(filmlink.find_all("a"))
-        # getFilmLink.append()
-    # print(getFilmLink)
+    #获取当前电影的海报
+    getFilmPoster = []
+    for filmname in namelist:
+         #获取当前页面的电影名字
+        getFilmName.append(filmname.get_text().split()[1])
+         #获取当前电影的连接
+        getFilmLink.append(filmname.find('a').get('href'))
+    #获取当前页面电影的连接
+    for poster in posterlist:
+        #获取当前页面电影的海报
+        getFilmPoster.append(poster.find('img').get('src'))
 
 if __name__ == '__main__':
     parse_url()
