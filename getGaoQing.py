@@ -21,11 +21,8 @@ def parse_url():
     namelist = bsobj.find_all("div", {"class": "article"})
     #抓取页面包含电海报连接
     posterlist = bsobj.find_all("div", {"class":"thumbnail"})
-
     getFilmName = []
-   
     getFilmLink = []
-    #获取当前电影的海报
     getFilmPoster = []
     for filmname in namelist:
          #获取当前页面的电影名字
