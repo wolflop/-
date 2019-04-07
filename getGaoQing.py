@@ -33,6 +33,23 @@ def parse_url():
     for poster in posterlist:
         #获取当前页面电影的海报
         getFilmPoster.append(poster.find('img').get('src'))
+    #获取当前页面每个电影的具体内容
+    film_desc_content = []
+    #遍历首页的所有连接
+    for url_i in getFilmLink:
+        response_i = requests.get(url_i, headers=headers)
+        #获取每个连接的内容
+        bsobj_i = BeautifulSoup(response_i.content.decode(), 'html.parser')
+        #获取连接的信息
+        film_descs = bsobj_i.find_all("div", {"class": "context"})
+        for film_desc in film_descs:
+            film_desc_content.append(film_desc.get_text())#将文字信息提取
+    #将提取的信息保存成txt文件
+    path2 = 'content.txt'
+    file_path2 = os.path.join(path1, path2)
+    with open(file_path2, "w", encoding='utf-8') as f:
+        for i in film_desc_content:
+            f.write(i)
 
 if __name__ == '__main__':
     parse_url()
