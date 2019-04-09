@@ -1,0 +1,42 @@
+# -*- coding: utf-8 -*-
+import pymysql
+def creat_db():
+    db = pymysql.connect("localhost", "root", "111111", "search_for")
+    cursor = db.cursor()
+    sql = """CREATE TABLE search_for (
+         id int auto_increment primary key,
+         search_for varchar(200) not null,
+         content longtext,
+         createday timestamp NULL DEFAULT CURRENT_TIMESTAMP)"""
+    try:
+        # 执行sql语句
+        cursor.execute(sql)
+        # 提交到数据库执行
+        db.commit()
+    except:
+        # 如果发生错误则回滚
+        db.rollback()
+    db.close()
+
+def inser_db(search_for, content):
+    db = pymysql.connect("localhost", "root", "111111", "search_for")
+    cursor = db.cursor()
+    sql = """INSERT INTO search_for (search_for, content) VALUES ('%s', '%s')""" % (search_for, content)
+        # 执行sql语句
+    cursor.execute(sql)
+    # 提交到数据库执行
+    db.commit()
+    db.close()
+def select_db():
+    db = pymysql.connect("localhost", "root", "111111", "search_for")
+    cursor = db.cursor()
+    sql = """select search_for from search_for"""
+    cursor.execute(sql)
+    result = cursor.fetchone()
+    # print(result)
+    db.commit()
+    db.close()
+if __name__ == '__main__':
+    creat_db()
+    inser_db('lol', '这是一个游戏')
+    select_db()
