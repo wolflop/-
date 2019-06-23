@@ -1,0 +1,35 @@
+# -*- coding: utf-8 -*-
+import paramiko
+import re
+import time
+
+def ssh_device(host, port, user, password, cmd):
+    #模块实例化
+    transport = paramiko.Transport((host, port))
+    #创建连接所用的用户名和密码
+    transport.connect(username=user, password=password)
+    #创建ssh登录对象
+    ssh = paramiko.SSHClient()
+    ssh._transport = transport
+    #执行命令
+    stdin,stdout,stderr = ssh.exec_command(cmd)
+    #打开log文件
+    with open(r"C:\Users\l07920\Projects\log.txt", "a", encoding='utf-8') as f:
+        #将读出的2进制模式转换成字符串
+        a = str(stdout.read().decode())
+        #将‘\r’替换掉
+        b = a.replace('\r', '')
+        # print(b)
+        #写入文件
+        f.write(b)
+    ssh.close()
+
+if __name__ == '__main__':
+    host = '10.0.31.1'
+    port = 22
+    user = 'test'
+    password = '123'
+    cmd = 'dis memory'
+    for i in range(1000):
+        ssh_device(host, port, user, password, cmd)
+        time.sleep(10)
