@@ -4,34 +4,34 @@ import threading
 
 class Server():
     def __init__(self, ip_host, port):
-        self.ip_host = ip_host
-        self.port = port
-        self.addr = (self.ip_host, self.port)
-        self.BUFSIZE = 10240
+        self.ip_host = ip_host     #定义ip地址     
+        self.port = port           #定义端口
+        self.addr = (self.ip_host, self.port) #绑定ip地址和端口号
+        self.BUFSIZE = 10240          #定义buffer的大小喂10240字节
     def tcpServer(self):
-        tcpSerSoc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        tcpSerSoc.bind(self.addr)
-        tcpSerSoc.listen(5)
+        tcpSerSoc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)          #创建TCPlsocket
+        tcpSerSoc.bind(self.addr)                     #绑定ip地址和端口
+        tcpSerSoc.listen(5)                           #配置监听数量为5
         while True:
             print("waiting for connection")
-            tcpCliSoc, addr = tcpSerSoc.accept()
+            tcpCliSoc, addr = tcpSerSoc.accept()         #接收tcp client发送的消息
             print('...connect from :', addr)
             while True:
-                data = tcpCliSoc.recv(self.BUFSIZE)
+                data = tcpCliSoc.recv(self.BUFSIZE)      #将tcp client收到的数据赋值给data 
                 if not data:
                     break
-                tcpCliSoc.send(data)
-                tcpCliSoc.close()
-            tcpSerSoc.close()
+                tcpCliSoc.send(data)                    #将收到的client发送的数据返回给client
+                tcpCliSoc.close()                       #关闭发送连接
+            tcpSerSoc.close()                           #关闭tcp server的连接
     def udpServer(self):
-         udpSerSoc = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-         udpSerSoc.bind(self.addr)
+         udpSerSoc = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) #创建udp的socket
+         udpSerSoc.bind(self.addr)                   #绑定ip地址和端口号
          while True:
              print('udp server waiting fro connection')
-             udpMsg, addr=udpSerSoc.recvfrom(self.BUFSIZE)
-             print(udpMsg, addr)
-             udpSerSoc.sendto(udpMsg)
-             udpSerSoc.close()
+             udpMsg, addr=udpSerSoc.recvfrom(self.BUFSIZE)        #接收udp client发送的消息
+             print(udpMsg, addr)                  
+             udpSerSoc.sendto(udpMsg)                             #将udp client发送过来的消息再发送给udp client
+             udpSerSoc.close()                             #关闭udp 连接
 
 def checkThread(sleeptimes, initThreadName=[]):
     for i in range(400, 10000, 1):
