@@ -1,0 +1,22 @@
+web_data = """
+           <xml>
+            <URL><![CDATA[http://49.234.203.152/wx]]></URL>
+            <ToUserName><![CDATA[wolf_lop]]></ToUserName>
+            <FromUserName><![CDATA[12345]]></FromUserName>
+            <CreateTime>20197124</CreateTime>
+            <MsgType><![CDATA[text]]></MsgType>
+            <Content><![CDATA[hello]]></Content>
+            <MsgId>1</MsgId>
+            </xml>
+            """
+web_data = """
+          <xml>
+          <ToUserName><![CDATA[gh_0cb644bfccad]]></ToUserName>
+          <FromUserName><![CDATA[oISARv-u4dLgR625d0urBBNQKzuw]]></FromUserName>
+          <CreateTime>1564406952</CreateTime>
+          <MsgType><![CDATA[image]]></MsgType>
+          <PicUrl><![CDATA[http://mmbiz.qpic.cn/mmbiz_jpg/sXSXlKBbUbPOa4LZdHdyHV8dhDH0fZE2BaPOv0ZIU4wibb1QuzQzZSjaJdRSLUhZpv2GlbBO8Diap0xgSWMy6HJQ/0]]></PicUrl>
+          <MsgId>22396921299964462</MsgId>
+          <MediaId><![CDATA[hbPK0mFRDGJG_e3uHQw2IbGuJ2If3U0MQjPrRKTbyhDDXBlKfM0awxLw2mD_LZ-b]]></MediaId>
+          </xml>
+         """
