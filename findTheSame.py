@@ -1,11 +1,14 @@
 # -*- condig:utf-8 -*-
 
 def findTheSame(list_a, list_b):
-  list_a = sorted(list_a)
+  #对输入对list进行排序
+  list_a = sorted(list_a) 
   list_b = sorted(list_b)
+  #设置两个指针，分别针对list_a, list_b
   count_a = 0
   count_b = 0
   list_c = []
+  #设置循环条件
   while (count_a < len(list_a) and count_b < len(list_b)):
     if list_a[count_a] > list_b[count_b]:
       count_b += 1
