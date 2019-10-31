@@ -10,10 +10,13 @@ def findTheSame(list_a, list_b):
   list_c = []
   #设置循环条件
   while (count_a < len(list_a) and count_b < len(list_b)):
+    #判断如果list_a[count_a]>list_b[count_b],count_b指针右移一位继续比较
     if list_a[count_a] > list_b[count_b]:
       count_b += 1
+    #判断如果list_a[count_a]<list_b[count_b],count_a指针右移一位继续比较
     elif list_a[count_a] < list_b[count_b]:
       count_a += 1
+    #判断如果list_a[count_a]=list_b[count_b],讲该值加入到list_c上，count_a和count_b指针都右移一位继续比较
     elif list_a[count_a] == list_b[count_b]:
       list_c.append(list_a[count_a])
       count_a += 1
