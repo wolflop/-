@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 #filename:sort.py
 '''
-本段代码写入很多排序实例
+本段代码会写入很多排序实例
 '''
 class solution:
     def __init__(self, seq):
