@@ -1,0 +1,107 @@
+# -*- coding:utf-8 -*-
+
+import urllib.parse
+import urllib.request
+import hashlib
+import os
+import json
+from urllib import parse
+import requests
+import time
+import wave
+import base64
+import uuid
+
+
+app_id = '2127017195'
+app_key = 'iAfLeYk2l2TWZl9G'
+api_url ='https://api.ai.qq.com/fcgi-bin/aai/aai_wxasrlong'
+callback = "http://106.37.239.65:4433"
+
+def md5str(string):
+    md = hashlib.md5()
+    md.update(string.encode('utf-8'))
+    md5 = md.hexdigest().upper()
+    return md5
+
+def urlencode(args):
+    tuples = [(k, args[k]) for k  in sorted(args.keys()) if args[k]]
+    query_str = parse.urlencode(tuples)
+    return query_str
+
+def signify(args, app_key):
+    query_str = urlencode(args)
+    query_str = query_str + '&app_key' + app_key
+    signiture = md5str(query_str)
+    return signiture
+
+def http_post(api_url, args):
+    username = 'l07920'
+    password = 'liu@123'
+    proxies = {'http': 'http://username:password@proxy.h3c.com:8080', 'https': 'https://username:password@proxy.h3c.com:8080'}
+    resp = requests.post(url=api_url, proxies=proxies, data=args, verify=False)
+    resp = json.loads(resp.text)
+    return resp
+
+def get_wav_time(file_path):
+    wave_f = wave.open(file_path, 'r')
+    nframe = wave_f.getframerate()
+    frame_rate = wave_f.getframerate()
+    wave_time = nframe//frame_rate
+    return wave_time
+
+def sendMessge(file_path):
+    f = open(file_path, 'rb')
+    fileCountent = f.read()
+    base64Audio = base64.b64encode(fileCountent)
+    uuidstr = uuid.uuid4().hex
+    body = {
+        'app_id': '2127017195',
+        'format': '1',
+        'callback_url': 'http://106.37.239.65:4433',
+        'speech': base64Audio,
+        'time_stamp': str(time.time()),
+        'nonce_str':uuidstr,
+        'sign': ''
+    }
+
+    body['sign'] = signify(body, 'iAfLeYk2l2TWZl9G')
+    resp = http_post(api_url, body)
+    f.close()
+    return resp
+
+def getMessge(file_path):
+    index = 0
+    resp = sendMessge(file_path)
+    if resp.get('ret') != 0:
+        print("上传音频失败")
+        print('resp', resp)
+        return
+    task_id = resp['data']['task_id']
+    print(task_id)
+
+    wav_time = get_wav_time(file_path)
+    print('wav_time', wav_time)
+    while True:
+        print(index)
+        if index > 5:
+            return ''
+        res =  requests.get(url='http://106.37.239.65:4433')
+        res_dict = res.json()
+        try:
+            text = res_dict[task_id]
+        except Exception as e:
+            index =+1
+            print('------------', e)
+        else:
+            return text
+        time.sleep(wav_time // 3)
+
+if __name__ == '__main__':
+    files_path = r"D:/python脚本/py_aiplat_demo/data"
+    file_list = os.listdir(files_path)
+    for file in file_list:
+        file_path = os.path.join(files_path, file)
+        print(file_path)
+        res =getMessge(file_path)
+        print('识别结果', res)
