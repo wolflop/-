@@ -36,9 +36,12 @@ def signify(args, app_key):
     return signiture
 
 def http_post(api_url, args):
-    username = 'l07920'
-    password = 'liu@123'
-    proxies = {'http': 'http://username:password@proxy.h3c.com:8080', 'https': 'https://username:password@proxy.h3c.com:8080'}
+    #username = 'l07920'
+    #password = 'liu@123'
+    #proxies = {'http': 'http://username:password@proxy.h3c.com:8080', 'https': 'https://username:password@proxy.h3c.com:8080'}
+    proxies = {"http": 'http://' + 'l07920:Lop@123@proxy.h3c.com:8080',
+                   "https": 'http://' + 'l07920:Lop@123@proxy.h3c.com:8080'
+                   }
     resp = requests.post(url=api_url, proxies=proxies, data=args, verify=False)
     resp = json.loads(resp.text)
     return resp
