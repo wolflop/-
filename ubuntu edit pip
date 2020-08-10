@@ -30,3 +30,11 @@ Ubuntu16.04切换python3和python2
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python2 100
 
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 150
+
+
+出现以下问题
+在这里插入图片描述
+
+解决办法
+python -m 会指定你当前使用的python版本
+python -m pip install torchtext（包名）
